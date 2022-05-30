@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   Button,
   Flex,
@@ -26,7 +27,7 @@ type LoginFormData = {
 };
 
 const loginFormSchema = yup.object({
-  email: yup
+    email: yup
     .string()
     .required('O campo e-mail é obrigatório.')
     .email('E-mail inválido.'),

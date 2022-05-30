@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import { useQuery } from 'react-query';
 import { api } from '../services/api';
 

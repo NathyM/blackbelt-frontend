@@ -13,6 +13,7 @@ import {
   useColorModeValue,
 } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
+import dayjs from 'dayjs';
 import Link from 'next/link';
 import Router from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -21,10 +22,11 @@ import { toast } from 'react-toastify';
 import * as yup from 'yup';
 import { Input } from '../../components/Input';
 import { MainContainer } from '../../components/MainContainer';
-import { api } from '../../services/api';
+import { api, setupApiClient } from '../../services/api';
 import { withSSRAuth } from '../../utils/withSSRAuth';
 
-type StudentFormData = {
+type Athlete = {
+  id: number;
   first_name: string;
   last_name: string;
   email: string;
@@ -33,9 +35,18 @@ type StudentFormData = {
   birthdate: Date;
   belt: string;
   level: number;
+  time:string;
+  gender: string;
+  wheight: string;
 };
 
-const studentFormSchema = yup.object({
+type AthleteFormData = Omit<Athlete, 'id'>;
+
+type AthleteEditProps = {
+  athlete: Athlete;
+};
+
+const athleteFormSchema = yup.object({
   first_name: yup.string().required('O campo primeiro nome é obrigatório.'),
   last_name: yup.string().required('O campo ultimo nome é obrigatório.'),
   email: yup
@@ -61,25 +72,25 @@ const studentFormSchema = yup.object({
   level: yup.number(),
 });
 
-export default function StudentCreate() {
+export default function AthleteEdit({ athlete }: AthleteEditProps) {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(studentFormSchema),
+    resolver: yupResolver(athleteFormSchema),
     mode: 'onTouched',
   });
 
-  const handleCreate: SubmitHandler<StudentFormData> = async (
+  const handleCreate: SubmitHandler<AthleteFormData> = async (
     values,
     event,
   ) => {
     event.preventDefault();
     try {
-      await api.post('/students', values);
-      toast.success('Cadastro realizado com sucesso!');
-      Router.push('/students');
+      await api.put(`/athlete/${athlete.id}`, values);
+      toast.success('Cadastro atualizado com sucesso!');
+      Router.push('/athlete');
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -88,7 +99,7 @@ export default function StudentCreate() {
   return (
     <MainContainer>
       <Flex mb="8" justify="space-between" w="100%">
-        <Heading size="lg">Cadastrar Aluno</Heading>
+        <Heading size="lg">Editar Atleta</Heading>
       </Flex>
       <Box w="100%" as="form" onSubmit={handleSubmit(handleCreate)}>
         <Stack spacing={['6', '8']}>
@@ -149,6 +160,7 @@ export default function StudentCreate() {
               inputType="date"
               error={errors.birthdate}
               {...register('birthdate')}
+              defaultValue={dayjs(athlete.birthdate).format('YYYY-MM-DD')}
             />
           </SimpleGrid>
           <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
@@ -204,7 +216,7 @@ export default function StudentCreate() {
                 <option value={7}>7</option>
               </Select>
             </FormControl>
-          </SimpleGrid>
+            </SimpleGrid>
         </Stack>
         <ButtonGroup w="100%" mt="3rem" ml="auto">
           <Link href="/students" passHref>
@@ -232,8 +244,13 @@ export default function StudentCreate() {
   );
 }
 
-export const getServerSideProps = withSSRAuth(async () => {
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+  const athleteId = ctx.query.id;
+  const api = setupApiClient(ctx);
+  const response = await api.get(`/students/${athleteId}`);
+  const athlete = response.data;
+
   return {
-    props: {},
+    props: { athlete },
   };
 });

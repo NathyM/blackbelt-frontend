@@ -24,7 +24,7 @@ import { MainContainer } from '../../components/MainContainer';
 import { api } from '../../services/api';
 import { withSSRAuth } from '../../utils/withSSRAuth';
 
-type StudentFormData = {
+type AthleteFormData = {
   first_name: string;
   last_name: string;
   email: string;
@@ -33,20 +33,32 @@ type StudentFormData = {
   birthdate: Date;
   belt: string;
   level: number;
+  time:string;
+  gender: string;
+  wheight: string;
 };
 
-const studentFormSchema = yup.object({
+const athleteFormSchema = yup.object({
   first_name: yup.string().required('O campo primeiro nome é obrigatório.'),
   last_name: yup.string().required('O campo ultimo nome é obrigatório.'),
   email: yup
     .string()
     .required('O campo e-mail é obrigatório.')
     .email('E-mail inválido.'),
+  weight: yup
+    .string()
+    .required('O campo peso é obrigatório'),
+  time: yup
+    .string()
+    .required('O campo time é obrigatório'),
   cpf: yup
     .string()
     .required('O campo cpf é obrigatório.')
     .min(14, 'Digite um CPF válido.')
     .max(14, 'Digite um CPF válido.'),
+  gender: yup
+    .string()
+    .required('O campo gênero é obrigatório'),
   phone: yup
     .string()
     .required('O campo telefone é obrigatório.')
@@ -61,25 +73,25 @@ const studentFormSchema = yup.object({
   level: yup.number(),
 });
 
-export default function StudentCreate() {
+export default function AthleteCreate() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm({
-    resolver: yupResolver(studentFormSchema),
+    resolver: yupResolver(athleteFormSchema),
     mode: 'onTouched',
   });
 
-  const handleCreate: SubmitHandler<StudentFormData> = async (
+  const handleCreate: SubmitHandler<AthleteFormData> = async (
     values,
     event,
   ) => {
     event.preventDefault();
     try {
-      await api.post('/students', values);
+      await api.post('/athlete', values);
       toast.success('Cadastro realizado com sucesso!');
-      Router.push('/students');
+      Router.push('/athlete');
     } catch (err) {
       toast.error(err.response.data);
     }
@@ -88,7 +100,7 @@ export default function StudentCreate() {
   return (
     <MainContainer>
       <Flex mb="8" justify="space-between" w="100%">
-        <Heading size="lg">Cadastrar Aluno</Heading>
+        <Heading size="lg">Cadastrar Atleta</Heading>
       </Flex>
       <Box w="100%" as="form" onSubmit={handleSubmit(handleCreate)}>
         <Stack spacing={['6', '8']}>
@@ -202,6 +214,51 @@ export default function StudentCreate() {
                 <option value={5}>5</option>
                 <option value={6}>6</option>
                 <option value={7}>7</option>
+              </Select>
+            </FormControl>
+          </SimpleGrid><SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <FormControl id="gender">
+              <FormLabel
+                fontWeight="bold"
+                color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
+              >
+                Gênero
+              </FormLabel>
+              <Select
+                size="sm"
+                variant="flushed"
+                placeholder="Selecione o gênero"
+                error={errors.gender}
+                {...register('gender')}
+                >
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </Select>
+            </FormControl>
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <FormControl id="weight">
+              <FormLabel
+                fontWeight="bold"
+                color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
+              >
+                Peso
+              </FormLabel>
+              <Select
+                size="sm"
+                variant="flushed"
+                placeholder="Selecione o gênero"
+                error={errors.weight}
+                {...register('weight')}
+                >
+                <option value="Mosca">Mosca - 51 kg</option>
+                <option value="Galo">Galo - 54 kg</option>
+                <option value="Pena">Pena - 57 kg</option>
+                <option value="Leve">Leve - 60 kg</option>
+                <option value="Meio-medio">Meio médio - 69 kg</option>
+                <option value="Medio">Médio - 75 kg</option>
+                <option value="Meio-pesado">Meio pesado - 81 kg</option>
+                <option value="Pesado">Pesado - 91 kg</option>
               </Select>
             </FormControl>
           </SimpleGrid>
