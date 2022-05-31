@@ -257,12 +257,6 @@ export default function AthleteCreate() {
             </FormControl>
           </SimpleGrid>
           <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
-            <FormLabel
-              fontWeight="bold"
-              color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
-            >
-              TIME
-            </FormLabel>
             <Input
               id="time"
               label="TIME"
