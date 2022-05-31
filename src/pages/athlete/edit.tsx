@@ -37,7 +37,7 @@ type Athlete = {
   level: number;
   time:string;
   gender: string;
-  wheight: string;
+  weight: string;
 };
 
 type AthleteFormData = Omit<Athlete, 'id'>;
@@ -63,6 +63,8 @@ const athleteFormSchema = yup.object({
     .required('O campo telefone é obrigatório.')
     .min(14, 'Digite um telefone válido, incluindo DDD.')
     .max(15, 'Digite um telefone válido, incluindo DDD.'),
+  gender: yup.string().required('O campo gênero é obrigatório'),
+  weight: yup.string().required('O campo peso é obrigatório'),
   birthdate: yup
     .date()
     .required('O campo data de nascimento é obrigatório')
@@ -217,9 +219,55 @@ export default function AthleteEdit({ athlete }: AthleteEditProps) {
               </Select>
             </FormControl>
             </SimpleGrid>
+            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <FormControl id="gender">
+              <FormLabel
+                fontWeight="bold"
+                color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
+              >
+                GÊNERO
+              </FormLabel>
+              <Select
+                size="sm"
+                variant="flushed"
+                placeholder="Selecione o gênero"
+                error={errors.gender}
+                {...register('gender')}
+              >
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </Select>
+            </FormControl>
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <FormControl id="weight">
+              <FormLabel
+                fontWeight="bold"
+                color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
+              >
+                PESO
+              </FormLabel>
+              <Select
+                size="sm"
+                variant="flushed"
+                placeholder="Selecione o gênero"
+                error={errors.weight}
+                {...register('weight')}
+              >
+                <option value="Mosca - 51kg">Mosca - 51 kg</option>
+                <option value="Galo - 54kg">Galo - 54 kg</option>
+                <option value="Pena - 57kg">Pena - 57 kg</option>
+                <option value="Leve - 60kg">Leve - 60 kg</option>
+                <option value="Meio-medio">Meio médio - 69 kg</option>
+                <option value="Medio">Médio - 75 kg</option>
+                <option value="Meio-pesado">Meio pesado - 81 kg</option>
+                <option value="Pesado">Pesado - 91 kg</option>
+              </Select>
+            </FormControl>
+          </SimpleGrid>
         </Stack>
         <ButtonGroup w="100%" mt="3rem" ml="auto">
-          <Link href="/students" passHref>
+          <Link href="/athlete" passHref>
             <Button
               as="a"
               colorScheme="blackbelt"
@@ -247,7 +295,7 @@ export default function AthleteEdit({ athlete }: AthleteEditProps) {
 export const getServerSideProps = withSSRAuth(async (ctx) => {
   const athleteId = ctx.query.id;
   const api = setupApiClient(ctx);
-  const response = await api.get(`/students/${athleteId}`);
+  const response = await api.get(`/athlete/${athleteId}`);
   const athlete = response.data;
 
   return {

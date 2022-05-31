@@ -172,7 +172,7 @@ export default function Register() {
                     <RadioGroup
                       id="role"
                       {...register('role')}
-                      options={['Mestre', 'Aluno']}
+                      options={['Mestre', 'Aluno', 'Atleta']}
                     />
                   </FormControl>
                 </Box>
@@ -357,8 +357,173 @@ export default function Register() {
               {watchRole === 'Aluno' && (
                 <TabPanel px="0px">
                   <Box minH="250px">
+                    <Stack spacing="6">
+                      <Input
+                        id="email"
+                        label="EMAIL"
+                        inputType="email"
+                        icon={TiUser}
+                        placeholder="digite seu e-mail"
+                        error={errors.email}
+                        {...register('email')}
+                      />
+                      <Input
+                        id="password"
+                        label="SENHA"
+                        inputType="password"
+                        icon={TiLockClosed}
+                        placeholder="digite sua senha"
+                        error={errors.password}
+                        {...register('password')}
+                      />
+                      <Input
+                        id="password_confirmation"
+                        label="CONFIRME SUA SENHA"
+                        inputType="password"
+                        icon={TiLockClosed}
+                        placeholder="digite sua senha"
+                        error={errors.password_confirmation}
+                        {...register('password_confirmation')}
+                      />
+                    </Stack>
+                  </Box>
+                  <ButtonGroup w="100%" mt="3rem">
+                    <Button
+                      w="100%"
+                      colorScheme="blackbelt"
+                      variant="outline"
+                      onClick={handlePrevTab}
+                      leftIcon={<IoChevronBack />}
+                    >
+                      Anterior
+                    </Button>
+                    <Button
+                      colorScheme="blackbelt"
+                      onClick={async () => {
+                        await trigger([
+                          'email',
+                          'password',
+                          'password_confirmation',
+                        ]);
+                        if (
+                          !errors.password_confirmation &&
+                          !errors.password &&
+                          !errors.email
+                        ) {
+                          handleNextTab();
+                        }
+                      }}
+                      w="100%"
+                      rightIcon={<IoChevronForward />}
+                    >
+                      Próximo
+                    </Button>
+                  </ButtonGroup>
+                </TabPanel>
+              )}
+              {watchRole === 'Aluno' && (
+                <TabPanel px="0px">
+                  <Box minH="250px">
+                    <Stack spacing="6">
+                      <Input
+                        as={InputMask}
+                        id="cpf"
+                        label="CPF"
+                        inputType="text"
+                        placeholder="000.000.000-00"
+                        mask="999.999.999-99"
+                        maskChar={null}
+                        error={errors.cpf}
+                        {...register('cpf')}
+                      />
+                      <Input
+                        id="birthdate"
+                        label="DATA DE NASCIMENTO"
+                        inputType="date"
+                        error={errors.birthdate}
+                        {...register('birthdate')}
+                      />
+                    </Stack>
+                  </Box>
+                  <ButtonGroup w="100%" mt="3rem">
+                    <Button
+                      w="100%"
+                      colorScheme="blackbelt"
+                      variant="outline"
+                      onClick={handlePrevTab}
+                      leftIcon={<IoChevronBack />}
+                    >
+                      Anterior
+                    </Button>
+                    <Button
+                      colorScheme="blackbelt"
+                      onClick={async () => {
+                        await trigger([
+                          'cpf',
+                          'birthdate',
+                          'password_confirmation',
+                        ]);
+                        if (!errors.cpf && !errors.birthdate) {
+                          handleNextTab();
+                        }
+                      }}
+                      w="100%"
+                      rightIcon={<IoChevronForward />}
+                    >
+                      Próximo
+                    </Button>
+                  </ButtonGroup>
+                </TabPanel>
+              )}
+              {watchRole === 'Aluno' && (
+                <TabPanel px="0px">
+                  <Box minH="250px">
+                    <Stack spacing="6">
+                      <Input
+                        id="first_name"
+                        label="PRIMEIRO NOME"
+                        inputType="text"
+                        placeholder="digite seu nome"
+                        error={errors.first_name}
+                        {...register('first_name')}
+                      />
+                      <Input
+                        id="last_name"
+                        label="ULTIMO NOME"
+                        inputType="text"
+                        placeholder="digite seu ultimo sobrenome"
+                        error={errors.last_name}
+                        {...register('last_name')}
+                      />
+                    </Stack>
+                  </Box>
+                  <ButtonGroup w="100%" mt="3rem">
+                    <Button
+                      w="100%"
+                      colorScheme="blackbelt"
+                      variant="outline"
+                      onClick={handlePrevTab}
+                      leftIcon={<IoChevronBack />}
+                    >
+                      Anterior
+                    </Button>
+                    <Button
+                      w="100%"
+                      colorScheme="blackbelt"
+                      type="submit"
+                      isLoading={isSubmitting}
+                    >
+                      Registrar
+                    </Button>
+                  </ButtonGroup>
+                </TabPanel>
+              )}
+              {/* Paineis de Registo do Atleta! */}
+              {watchRole === 'Atleta' && (
+                <TabPanel px="0px">
+                  <Box minH="250px">
                     <Text>
-                      Nesse momento o cadastro do aluno ainda não está
+                      Nesse momento o cadastro do atleta ainda não está
                       disponível.
                     </Text>
                   </Box>

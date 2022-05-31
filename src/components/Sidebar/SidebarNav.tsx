@@ -26,6 +26,14 @@ export function SidebarNav() {
             Aulas
           </NavLink>
         </NavSection>
+        <NavSection title="CAMPEONATO">
+          <NavLink href="/dashboardChampionship" icon={RiDashboardLine}>
+            Dashboard
+          </NavLink>
+          <NavLink href="/athlete" icon={RiContactsLine}>
+            Atletas
+          </NavLink>
+        </NavSection>
         <NavSection title="PERFIL">
           <Button variant="link" onClick={signOut}>
             <Icon as={RiLogoutCircleLine} fontSize="20" />

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Box,
   Button,
@@ -33,9 +32,9 @@ type AthleteFormData = {
   birthdate: Date;
   belt: string;
   level: number;
-  time:string;
+  time: string;
   gender: string;
-  wheight: string;
+  weight: string;
 };
 
 const athleteFormSchema = yup.object({
@@ -45,20 +44,14 @@ const athleteFormSchema = yup.object({
     .string()
     .required('O campo e-mail é obrigatório.')
     .email('E-mail inválido.'),
-  weight: yup
-    .string()
-    .required('O campo peso é obrigatório'),
-  time: yup
-    .string()
-    .required('O campo time é obrigatório'),
+  weight: yup.string().required('O campo peso é obrigatório'),
+  time: yup.string().required('O campo time é obrigatório'),
   cpf: yup
     .string()
     .required('O campo cpf é obrigatório.')
     .min(14, 'Digite um CPF válido.')
     .max(14, 'Digite um CPF válido.'),
-  gender: yup
-    .string()
-    .required('O campo gênero é obrigatório'),
+  gender: yup.string().required('O campo gênero é obrigatório'),
   phone: yup
     .string()
     .required('O campo telefone é obrigatório.')
@@ -216,13 +209,14 @@ export default function AthleteCreate() {
                 <option value={7}>7</option>
               </Select>
             </FormControl>
-          </SimpleGrid><SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
             <FormControl id="gender">
               <FormLabel
                 fontWeight="bold"
                 color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
               >
-                Gênero
+                GÊNERO
               </FormLabel>
               <Select
                 size="sm"
@@ -230,7 +224,7 @@ export default function AthleteCreate() {
                 placeholder="Selecione o gênero"
                 error={errors.gender}
                 {...register('gender')}
-                >
+              >
                 <option value="Masculino">Masculino</option>
                 <option value="Feminino">Feminino</option>
               </Select>
@@ -242,7 +236,7 @@ export default function AthleteCreate() {
                 fontWeight="bold"
                 color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
               >
-                Peso
+                PESO
               </FormLabel>
               <Select
                 size="sm"
@@ -250,11 +244,11 @@ export default function AthleteCreate() {
                 placeholder="Selecione o gênero"
                 error={errors.weight}
                 {...register('weight')}
-                >
-                <option value="Mosca">Mosca - 51 kg</option>
-                <option value="Galo">Galo - 54 kg</option>
-                <option value="Pena">Pena - 57 kg</option>
-                <option value="Leve">Leve - 60 kg</option>
+              >
+                <option value="Mosca - 51kg">Mosca - 51 kg</option>
+                <option value="Galo - 54kg">Galo - 54 kg</option>
+                <option value="Pena - 57kg">Pena - 57 kg</option>
+                <option value="Leve - 60kg">Leve - 60 kg</option>
                 <option value="Meio-medio">Meio médio - 69 kg</option>
                 <option value="Medio">Médio - 75 kg</option>
                 <option value="Meio-pesado">Meio pesado - 81 kg</option>
@@ -264,7 +258,7 @@ export default function AthleteCreate() {
           </SimpleGrid>
         </Stack>
         <ButtonGroup w="100%" mt="3rem" ml="auto">
-          <Link href="/students" passHref>
+          <Link href="/athlete" passHref>
             <Button
               as="a"
               colorScheme="blackbelt"
