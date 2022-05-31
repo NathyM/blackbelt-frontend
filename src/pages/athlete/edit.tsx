@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import {
   Box,
   Button,
@@ -35,7 +34,7 @@ type Athlete = {
   birthdate: Date;
   belt: string;
   level: number;
-  time:string;
+  time: string;
   gender: string;
   weight: string;
 };
@@ -65,6 +64,7 @@ const athleteFormSchema = yup.object({
     .max(15, 'Digite um telefone válido, incluindo DDD.'),
   gender: yup.string().required('O campo gênero é obrigatório'),
   weight: yup.string().required('O campo peso é obrigatório'),
+  time: yup.string().required('O campo time é obrigatório'),
   birthdate: yup
     .date()
     .required('O campo data de nascimento é obrigatório')
@@ -218,8 +218,8 @@ export default function AthleteEdit({ athlete }: AthleteEditProps) {
                 <option value={7}>7</option>
               </Select>
             </FormControl>
-            </SimpleGrid>
-            <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
             <FormControl id="gender">
               <FormLabel
                 fontWeight="bold"
@@ -264,6 +264,16 @@ export default function AthleteEdit({ athlete }: AthleteEditProps) {
                 <option value="Pesado">Pesado - 91 kg</option>
               </Select>
             </FormControl>
+          </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <Input
+              id="time"
+              label="TIME"
+              inputType="text"
+              placeholder="digite o nome do time"
+              error={errors.time}
+              {...register('time')}
+            />
           </SimpleGrid>
         </Stack>
         <ButtonGroup w="100%" mt="3rem" ml="auto">

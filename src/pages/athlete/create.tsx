@@ -256,6 +256,22 @@ export default function AthleteCreate() {
               </Select>
             </FormControl>
           </SimpleGrid>
+          <SimpleGrid minChildWidth="240px" spacing={['6', '8']} w="100%">
+            <FormLabel
+              fontWeight="bold"
+              color={useColorModeValue('blackbelt.500', 'blackbelt.200')}
+            >
+              TIME
+            </FormLabel>
+            <Input
+              id="time"
+              label="TIME"
+              inputType="text"
+              placeholder="digite o nome do time"
+              error={errors.time}
+              {...register('time')}
+            />
+          </SimpleGrid>
         </Stack>
         <ButtonGroup w="100%" mt="3rem" ml="auto">
           <Link href="/athlete" passHref>
